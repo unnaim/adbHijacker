@@ -112,14 +112,30 @@ def recv_packet(sock):
 
 
 def _validate_packet(cmd, arg0, arg1, length, csum, magic, data):
-    """Verify ADB packet checksum and magic field."""
+    """Verify ADB packet magic field; warn on checksum mismatch.
+
+    Magic must match — a mismatch means we aren't speaking ADB.
+    Checksum is advisory only: many ADB implementations (host-side
+    servers, emulators, older adbd) either skip it or compute it
+    differently.  A mismatch is logged but never fatal.
+    """
     if magic != (cmd ^ 0xFFFFFFFF):
         raise ValueError(
             f"bad magic: expected {cmd ^ 0xFFFFFFFF:#010x}, got {magic:#010x}"
         )
-    if _checksum(data) != csum:
-        raise ValueError(
-            f"bad checksum: expected {_checksum(data):#010x}, got {csum:#010x}"
+    expected = _checksum(data)
+    if expected != csum:
+        print(
+            f"[warn] checksum mismatch: expected {expected:#010x}, "
+            f"got {csum:#010x}  (non-fatal, see docstring)",
+            file=sys.stderr,
+        )
+    expected = _checksum(data)
+    if expected != csum:
+        print(
+            f"[warn] checksum mismatch: expected {expected:#010x}, "
+            f"got {csum:#010x}  (non-fatal, see docstring)",
+            file=sys.stderr,
         )
 
 
