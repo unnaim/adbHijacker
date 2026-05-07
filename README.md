@@ -12,7 +12,7 @@ cross-algorithm mismatch into a successful host-key match — bypassing
 authentication entirely.
 
 **Technical details obtained  from [BARGHEST](https://barghest.asia/blog/cve-2026-0073-adb-tls-auth-bypass).**  
-**Base PoC code sourced from [this guy](https://github.com/SecTestAnnaQuinn/CVE-2026-0073-Android-adbd-authentication-bypass-POC).**  
+**Base PoC code sourced from [SecTestAnnaQuinn](https://github.com/SecTestAnnaQuinn/CVE-2026-0073-Android-adbd-authentication-bypass-POC).**  
 **Patched in Android Security Bulletin — May 2026.**
 
 ---
@@ -37,7 +37,7 @@ debuggable applications; and stage follow-on exploitation.
 
 | File | Purpose |
 |------|---------|
-| `adb_tls_auth_bypass.py` | Single-target exploit PoC (original by BARGHEST, checksum-patched) |
+| `adb_tls_auth_bypass.py` | Single-target exploit PoC (original by SecTestAnnaQuinn, checksum-patched) |
 | `adbt_scanner.py` | Network scanner — discover vulnerable devices + exploit them |
 | `requirements.txt` | Python dependencies |
 
