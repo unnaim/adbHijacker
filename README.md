@@ -11,8 +11,8 @@ API returns `-1` (type mismatch), which is *truthy* in C/C++. This promotes a
 cross-algorithm mismatch into a successful host-key match — bypassing
 authentication entirely.
 
-**Discovered by [BARGHEST](https://barghest.asia/).**  
-**Base PoC code sourced from [BARGHEST's security research](https://github.com/SecTestAnnaQuinn/CVE-2026-0073-Android-adbd-authentication-bypass-POC).**  
+**Technical details obtained  from [BARGHEST]([https://barghest.asia/](https://barghest.asia/blog/cve-2026-0073-adb-tls-auth-bypass/)).**  
+**Base PoC code sourced from [this guy](https://github.com/SecTestAnnaQuinn/CVE-2026-0073-Android-adbd-authentication-bypass-POC).**  
 **Patched in Android Security Bulletin — May 2026.**
 
 ---
