@@ -52,10 +52,6 @@ For the exploit to succeed, the target Android device must have:
 3. At least **one previously paired RSA host key** in `/data/misc/adb/adb_keys`
 4. **Network reachability** to the ADB TCP port (default 5555)
 
-This is the normal state after a developer or forensic analyst enables wireless
-debugging and pairs a host. Malware (e.g., the Morpheus spyware family) has been
-observed automating the enabling of precisely this device state.
-
 ---
 
 ## Setup
