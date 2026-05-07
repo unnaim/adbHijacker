@@ -11,8 +11,8 @@ API returns `-1` (type mismatch), which is *truthy* in C/C++. This promotes a
 cross-algorithm mismatch into a successful host-key match — bypassing
 authentication entirely.
 
-**Discovered by [BARGHEST](https://barghest.asia/).**  
-**Base PoC code sourced from [BARGHEST's security research](https://github.com/SecTestAnnaQuinn/CVE-2026-0073-Android-adbd-authentication-bypass-POC).**  
+**Technical details obtained  from [BARGHEST](https://barghest.asia/blog/cve-2026-0073-adb-tls-auth-bypass).**  
+**Base PoC code sourced from [SecTestAnnaQuinn](https://github.com/SecTestAnnaQuinn/CVE-2026-0073-Android-adbd-authentication-bypass-POC).**  
 **Patched in Android Security Bulletin — May 2026.**
 
 ---
@@ -37,7 +37,7 @@ debuggable applications; and stage follow-on exploitation.
 
 | File | Purpose |
 |------|---------|
-| `adb_tls_auth_bypass.py` | Single-target exploit PoC (original by BARGHEST, checksum-patched) |
+| `adb_tls_auth_bypass.py` | Single-target exploit PoC (original by SecTestAnnaQuinn, checksum-patched) |
 | `adbt_scanner.py` | Network scanner — discover vulnerable devices + exploit them |
 | `requirements.txt` | Python dependencies |
 
@@ -51,10 +51,6 @@ For the exploit to succeed, the target Android device must have:
 2. **Wireless debugging** or ADB-over-TCP enabled (the platform `adbd` TCP service)
 3. At least **one previously paired RSA host key** in `/data/misc/adb/adb_keys`
 4. **Network reachability** to the ADB TCP port (default 5555)
-
-This is the normal state after a developer or forensic analyst enables wireless
-debugging and pairs a host. Malware (e.g., the Morpheus spyware family) has been
-observed automating the enabling of precisely this device state.
 
 ---
 
@@ -231,12 +227,6 @@ Phase 3 — Post-TLS ADB service layer
   enabled but *never paired* is not vulnerable.
 - **Requires STLS path.** Devices serving ADB over TCP via legacy (non-TLS)
   mechanisms respond with `AUTH`, not `STLS`, and are not affected by this CVE.
-- **No automatic open-WiFi association.** Android does not auto-join unknown
-  open WiFi networks by default. A rogue access-point attack requires either
-  the target to manually join or the attacker to spoof a previously trusted
-  SSID.
-- **IPv4-centric ARP.** The ARP sweep fallback only discovers IPv4 hosts.
-  mDNS discovery handles both IPv4 and IPv6 addresses.
 - **Patched devices are immune.** The May 2026 Android Security Bulletin
   includes a fix that changes the `EVP_PKEY_cmp` check to require an exact
   `== 1` return value.
@@ -245,10 +235,9 @@ Phase 3 — Post-TLS ADB service layer
 
 ## Mitigation
 
-- Apply the **May 2026 Android security update**.
+- Apply the **Patch**.
 - Disable Developer options when not actively needed.
-- Disable wireless debugging on untrusted networks.
-- Revoke unknown paired debugging hosts from Developer options.
+- Disable wireless debugging.
 - Do not expose ADB beyond your local trusted network.
 
 ---
