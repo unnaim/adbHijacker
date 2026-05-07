@@ -243,7 +243,7 @@ def discover_mdns(timeout: float, verbose: bool) -> list[tuple[str, int]]:
     browser = None
     try:
         zc = Zeroconf()
-        browser = ServiceBrowser(zc, "_adb-tls-connect._tcp", listener)
+        browser = ServiceBrowser(zc, "_adb-tls-connect._tcp.local.", listener)
 
         if verbose:
             print(f"  mDNS: listening for _adb-tls-connect._tcp ({timeout}s) ...")
